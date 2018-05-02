@@ -17,13 +17,14 @@ export function receiveCategories(categories) {
   }
 }
 
+
 export function fetchCategories() {
   return dispatch => {
-      console.log('entré en action')
       dispatch(requestCategories());
 
       return MyAPI.getCategories()
         .then(categories => dispatch(receiveCategories(categories)));
+        // .then(algo => console.log('algo', algo));
       
   //   dispatch(requestPosts(subreddit))
   //   return fetch(`https://www.reddit.com/r/${subreddit}.json`)

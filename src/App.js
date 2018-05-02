@@ -4,56 +4,99 @@ import { Link } from 'react-router-dom'
 import { Route } from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
 import { fetchCategories } from './actions/categories'
+import { fetchPosts } from './actions/posts'
 import './App.css';
+import Post from './components/Post'
 // import * as MyAPI from './utils/api'
 // import { getCategories } from './utils/api';
 
 class App extends Component {
   state = {
-    categories: []
+    categories: [],
+    posts: []
   }
 
   componentDidMount() {
-    const { getCategories } = this.props
-    // console.log(getCategories)
+    // console.log('this1', this);
+    const { getCategories, getPosts } = this.props
+    
+    // console.log('getPosts', getPosts());
     getCategories().then((res) => {
-      console.log('res', res)
       this.setState({
         categories: res.categories
       })
     })
-    // console.log(getCategories())
-    // MyAPI.getCategories().then((categories) => {
-    //   this.setState({
-    //     categories
-    //   })
+    getPosts().then((res) => {
+      this.setState({
+        posts: res.posts
+      })
+    })
+    // let myPosts;
+    // getPosts().then((res) => {
+    //   return myPosts = res
     // })
-    // MyAPI.getCategories().then(category => console.log(category))
-    // this.props.getCategories()
+    // console.log('myPosts', myPosts);
   }
+  
+  // componentWillReceiveProps(nextProps, prevState) {
+  //   // console.log('this2', this);
+  //   // console.log(nextProps.post);
+  //   // console.log(prevState.posts);
+  //   this.setState({
+  //     posts: nextProps.post ? nextProps.post : prevState.posts
+  //   })
+  // }
+
+  // componentDidUpdate(prevProps, prevState) {
+    
+  // }
 
   render() {
     // const { posts, getCategories } = this.props;
-    // console.log(this.props)
-    console.log('categories: ', this.state.categories)
+    // console.log(this.props.category.categories)
+    // console.log('categories: ', this.state.categories)
+    // console.log(this.props.post)
+    // console.log(this.state.posts)
+    
     
 
     return (
       <div>
         <Route exact path="/" render={() => (
-          <ul style={{listStyleType:"none"}}>
-            {this.state.categories.map((category, i) => (
-              <Link to={`/${category.name}`} key={i}>
-                <li>
-                  {category.name}
-                </li>
-              </Link>
-            ))}
-          </ul>
+          <div>
+            <ul className="category-list" style={{listStyleType:"none"}}>
+              Categories:
+                {this.state.categories.map((category, i) => (
+                  <div className="category-item" key={i}>
+                    <li>
+                      <Link to={`/${category.name}`}>
+                        {category.name.charAt(0).toUpperCase() + category.name.slice(1)}
+                      </Link>
+                    </li>
+                  </div>
+                ))}
+            </ul>
+            <ol>Posts:
+              {(this.state.posts) &&
+              this.state.posts.map((post, i) => (
+                <Post key={i} post={post} />
+              ))}
+            </ol>
+          </div>
         )}/>
         <Route path="/react" render={() => (
           <div>
-            Hello World
+            Hello React
+          </div>
+        )}/>
+        <Route path="/redux" render={() => (
+          <div>
+            Hello Redux
+          </div>
+        )}/>
+        <Route path="/udacity" render={() => (
+          <div>
+            Hello Udacity
           </div>
         )}/>
       </div>
@@ -61,16 +104,18 @@ class App extends Component {
   }
 }
 
-function mapStateToProps (posts) {
-  // console.log('posts', posts)
+function mapStateToProps ({ category, post }) {
+  console.log('posts', post)
   return {
-    posts
+    category,
+    post
   }
 }
 
 function mapDispatchToProps (dispatch) {
   return {
-    getCategories: () => dispatch(fetchCategories())
+    getCategories: () => dispatch(fetchCategories()),
+    getPosts: () => dispatch(fetchPosts())
   }
 }
 

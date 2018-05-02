@@ -14,7 +14,7 @@ import { Provider } from 'react-redux'
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
 const loggerMiddleware = createLogger();
-
+// console.log('mi reducer', reducer)
 const store = createStore(
   reducer,
   composeEnhancers(
@@ -25,7 +25,7 @@ const store = createStore(
   )
 );
 
-// console.log(store.dispatch(newPost))
+// console.log('mi store', store)
 
 ReactDOM.render(
   <Provider store={store}>

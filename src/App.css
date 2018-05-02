@@ -2,8 +2,25 @@
   text-align: center;
 }
 
-a {
+.category-list {
+  text-align: center
+}
+
+.category-item {
+  display: inline-block;
+  margin: 40px;
+}
+
+li {
   margin: 10px
+}
+
+ul {
+  margin-bottom: 30px
+}
+
+span {
+  margin: 20px
 }
 
 @keyframes App-logo-spin {
