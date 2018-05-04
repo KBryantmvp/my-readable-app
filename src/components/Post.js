@@ -8,9 +8,9 @@ class Post extends Component {
     commentsCount: 0
   }
 
-  componentDidMount() {
-    // this.setState
-  }
+  // componentDidMount() {
+  //   console.log(2)
+  // }
 
   handleUpVote = () => {
     // this.setState(prevState => {
@@ -26,7 +26,7 @@ class Post extends Component {
   }
 
   render() {
-    // console.log(this.props.post.title)
+    // console.log(this.props)
     return (
       <div>
         <li>
@@ -49,7 +49,8 @@ class Post extends Component {
   }
 }
 
-function mapStateToProps ({post}) {
+function mapStateToProps ({post}, ownProps) {
+  // console.log(ownProps)
   // console.log('mi post', post)
   return post
 }

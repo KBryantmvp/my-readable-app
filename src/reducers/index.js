@@ -31,7 +31,7 @@ function category (state = {}, action) {
   }
 }
 
-function post (state = [], action) {
+function post (state = {}, action) {
   switch (action.type) {
     case REQUEST_POSTS :
       return state
@@ -45,6 +45,7 @@ function post (state = [], action) {
         }, {}),
         allIds: action.posts.map(post => post.id)
       })
+
       // return Object.assign({}, state, {
       //   posts: action.posts
       // })

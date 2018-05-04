@@ -11,31 +11,28 @@ import Post from './components/Post'
 // import { getCategories } from './utils/api';
 
 class App extends Component {
-  state = {
-    categories: [],
-    posts: []
-  }
+  // state = {
+  //   categories: [],
+  //   posts: []
+  // }
 
   componentDidMount() {
     // console.log('this1', this);
     const { getCategories, getPosts } = this.props
     
     // console.log('getPosts', getPosts());
-    getCategories().then((res) => {
-      this.setState({
-        categories: res.categories
-      })
-    })
-    getPosts().then((res) => {
-      this.setState({
-        posts: res.posts
-      })
-    })
-    // let myPosts;
-    // getPosts().then((res) => {
-    //   return myPosts = res
+    // getCategories().then((res) => {
+    //   this.setState({
+    //     categories: res.categories
+    //   })
     // })
-    // console.log('myPosts', myPosts);
+    getCategories();
+    // getPosts().then((res) => {
+    //   this.setState({
+    //     posts: res.posts
+    //   })
+    // })
+    getPosts();
   }
   
   // componentWillReceiveProps(nextProps, prevState) {
@@ -48,17 +45,18 @@ class App extends Component {
   // }
 
   // componentDidUpdate(prevProps, prevState) {
-    
+  //   const { getPosts } = this.props
+  //  if(prevProps.post.allIds.length < 3)
+  //   getPosts();
+  //   console.log(1)
   // }
 
   render() {
-    // const { posts, getCategories } = this.props;
-    // console.log(this.props.category.categories)
+    const { post, category } = this.props;
+    // console.log(this.props.category)
     // console.log('categories: ', this.state.categories)
-    // console.log(this.props.post)
-    // console.log(this.state.posts)
-    
-    
+    // console.log(this.props.post.allIds)
+    // console.log(post.byId)
 
     return (
       <div>
@@ -66,7 +64,8 @@ class App extends Component {
           <div>
             <ul className="category-list" style={{listStyleType:"none"}}>
               Categories:
-                {this.state.categories.map((category, i) => (
+              {category.categories &&
+                category.categories.map((category, i) => (
                   <div className="category-item" key={i}>
                     <li>
                       <Link to={`/${category.name}`}>
@@ -77,9 +76,9 @@ class App extends Component {
                 ))}
             </ul>
             <ol>Posts:
-              {(this.state.posts) &&
-              this.state.posts.map((post, i) => (
-                <Post key={i} post={post} />
+              {(post.allIds) && 
+                post.allIds.map((postItem, i) => (
+                  <Post key={i} post={post.byId[postItem]} />
               ))}
             </ol>
           </div>
@@ -105,9 +104,10 @@ class App extends Component {
 }
 
 function mapStateToProps ({ category, post }) {
-  console.log('posts', post)
+  // console.log(category)
   return {
     category,
+    // post: Object.keys(post).map(i => post[i])
     post
   }
 }
