@@ -16,6 +16,11 @@ import {
 //   posts: []
 // }
 
+const initialPost = {
+    byId: {},
+    allIds: []
+}
+
 function category (state = {}, action) {
   switch (action.type) {
     case REQUEST_CATEGORIES :
@@ -31,7 +36,7 @@ function category (state = {}, action) {
   }
 }
 
-function post (state = {}, action) {
+function post (state = initialPost, action) {
   switch (action.type) {
     case REQUEST_POSTS :
       return state

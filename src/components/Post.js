@@ -26,7 +26,7 @@ class Post extends Component {
   }
 
   render() {
-    // console.log(this.props)
+    console.log(this.props.post)
     return (
       <div>
         <li>
@@ -49,7 +49,7 @@ class Post extends Component {
   }
 }
 
-function mapStateToProps ({post}, ownProps) {
+function mapStateToProps ({ post }, ownProps) {
   // console.log(ownProps)
   // console.log('mi post', post)
   return post

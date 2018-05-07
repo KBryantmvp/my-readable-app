@@ -11,10 +11,10 @@ import Post from './components/Post'
 // import { getCategories } from './utils/api';
 
 class App extends Component {
-  // state = {
-  //   categories: [],
-  //   posts: []
-  // }
+  state = {
+    // categories: [],
+    posts: []
+  }
 
   componentDidMount() {
     // console.log('this1', this);
@@ -44,19 +44,39 @@ class App extends Component {
   //   })
   // }
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   const { getPosts } = this.props
-  //  if(prevProps.post.allIds.length < 3)
-  //   getPosts();
-  //   console.log(1)
-  // }
+  componentDidUpdate(prevProps) {
+    if (prevProps.post !== this.props.post) {
+      this.setState({
+        posts: this.props.post
+      })
+    }
+    // console.log(this.state.posts)
+  }
+
+  handleSortBy = (option) => {
+    const posts = this.state.posts;
+    switch (option) {
+      case 'votescore' :
+        return console.log('votescore')
+
+      case 'timestamp' :
+        console.log(posts)
+        posts.sort((a, b) => {
+          return a.timestamp - b.timestamp
+        })
+        return posts
+
+      default :
+        return
+    }
+  }
 
   render() {
     const { post, category } = this.props;
     // console.log(this.props.category)
     // console.log('categories: ', this.state.categories)
     // console.log(this.props.post.allIds)
-    // console.log(post.byId)
+    console.log(post)
 
     return (
       <div>
@@ -76,9 +96,18 @@ class App extends Component {
                 ))}
             </ul>
             <ol>Posts:
-              {(post.allIds) && 
-                post.allIds.map((postItem, i) => (
-                  <Post key={i} post={post.byId[postItem]} />
+              <div style={{float:"right", marginRight:"3em"}}>Sort by:
+                <span className="sort-controls">
+                  {/* <button disabled type="button">Vote score</button>
+                  <button type="button">Timestamp</button> */}
+                  <a href="#" onClick={(e) => this.handleSortBy("votescore")}>Vote score</a>
+                  <a href="#" onClick={(e) => this.handleSortBy("timestamp")}>Timestamp</a>
+                </span>
+              </div>
+              
+              {(post) && 
+                post.map((postItem, i) => (
+                  <Post key={i} post={postItem} />
               ))}
             </ol>
           </div>
@@ -105,11 +134,10 @@ class App extends Component {
 
 function mapStateToProps ({ category, post }) {
   // console.log(category)
-  return {
-    category,
-    // post: Object.keys(post).map(i => post[i])
-    post
-  }
+    return {
+      category,
+      post: Object.keys(post.byId).map(key => post.byId[key])
+    }
 }
 
 function mapDispatchToProps (dispatch) {
