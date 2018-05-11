@@ -10,10 +10,12 @@ import Post from './components/Post'
 // import * as MyAPI from './utils/api'
 // import { getCategories } from './utils/api';
 
+const _ = require('lodash');
+
 class App extends Component {
   state = {
     // categories: [],
-    posts: []
+    postsUi: []
   }
 
   componentDidMount() {
@@ -45,26 +47,72 @@ class App extends Component {
   // }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.post !== this.props.post) {
+    // console.log(prevProps);
+    const post = this.props.post;
+    const postsOrdered = [].concat(this.state.postsUi);
+    // console.log(post);
+    if (prevProps.post.length === 0){
       this.setState({
-        posts: this.props.post
+        postsUi: post
+      })
+    }
+    console.log('1')
+    console.log(post)
+    // console.log(prevProps.post)
+    // if (prevProps.post.length === 0) {
+    //   // console.log('2')
+    //   this.setState({
+    //     postsUi: post
+    //   })
+    if (prevProps.post !== this.props.post) {
+      // console.log(prevProps);
+      // console.log(this.props);
+      // console.log(postsOrdered)
+      // let diff = _.difference(postsOrdered, post);
+      // console.log('diff', diff);
+      // for (let item in postsOrdered) {
+      //   console.log(item)
+      //   if (item.id === diff.id && item.voteScore !== diff.voteScore) {
+      //     item = diff;
+      //     postsOrdered.push(item);
+      //   }
+      // }
+      // postsUi.forEach(item => {
+      //   post.forEach(postItem => {
+      //     if (item === postItem) {
+      //       return item.concat(postsOrdered);
+      //     } else {
+      //       return 
+      //     }
+      //   })
+      // })
+      this.setState({
+        postsUi: postsOrdered
       })
     }
     // console.log(this.state.posts)
   }
 
   handleSortBy = (option) => {
-    const posts = this.state.posts;
+    const postsUi = [].concat(this.state.postsUi);
     switch (option) {
       case 'votescore' :
-        return console.log('votescore')
+      console.log('votescore')
+        postsUi.sort((a, b) => {
+          return a.voteScore - b.voteScore
+        })
+        return this.setState({
+          postsUi
+        })
 
       case 'timestamp' :
-        console.log(posts)
-        posts.sort((a, b) => {
+        // console.log(postsUi)
+        postsUi.sort((a, b) => {
           return a.timestamp - b.timestamp
         })
-        return posts
+        return this.setState({
+          postsUi
+        })
 
       default :
         return
@@ -72,11 +120,12 @@ class App extends Component {
   }
 
   render() {
-    const { post, category } = this.props;
+    const { category } = this.props;
+    const postsUi = this.state.postsUi;
     // console.log(this.props.category)
     // console.log('categories: ', this.state.categories)
     // console.log(this.props.post.allIds)
-    console.log(post)
+    // console.log(postsUi)
 
     return (
       <div>
@@ -105,8 +154,8 @@ class App extends Component {
                 </span>
               </div>
               
-              {(post) && 
-                post.map((postItem, i) => (
+              {(postsUi) && 
+                postsUi.map((postItem, i) => (
                   <Post key={i} post={postItem} />
               ))}
             </ol>
@@ -133,7 +182,6 @@ class App extends Component {
 }
 
 function mapStateToProps ({ category, post }) {
-  // console.log(category)
     return {
       category,
       post: Object.keys(post.byId).map(key => post.byId[key])

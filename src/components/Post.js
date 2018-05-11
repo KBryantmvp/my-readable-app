@@ -26,7 +26,7 @@ class Post extends Component {
   }
 
   render() {
-    console.log(this.props.post)
+    console.log('2')
     return (
       <div>
         <li>
