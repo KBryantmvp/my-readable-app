@@ -3,10 +3,12 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Route } from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
+import Modal from 'react-modal'
 import { fetchCategories } from './actions/categories'
 import { fetchPosts } from './actions/posts'
 import './App.css';
-import Post from './components/Post'
+import ListPost from './components/ListPost'
+import NewPost from './components/NewPost'
 // import * as MyAPI from './utils/api'
 // import { getCategories } from './utils/api';
 
@@ -15,7 +17,12 @@ const _ = require('lodash');
 class App extends Component {
   state = {
     // categories: [],
-    postsUi: []
+    postsUi: [],
+    modalIsOpen: false
+  }
+
+  componentWillMount() {
+    Modal.setAppElement('body');
   }
 
   componentDidMount() {
@@ -51,20 +58,22 @@ class App extends Component {
     const post = this.props.post;
     const postsOrdered = [].concat(this.state.postsUi);
     // console.log(post);
-    if (prevProps.post.length === 0){
-      this.setState({
-        postsUi: post
-      })
-    }
-    console.log('1')
-    console.log(post)
-    // console.log(prevProps.post)
-    // if (prevProps.post.length === 0) {
-    //   // console.log('2')
+    // if (prevProps.post.length === 0){
     //   this.setState({
     //     postsUi: post
     //   })
+    // }
+    
+    console.log(postsOrdered)
+    // console.log(prevProps.post)
+    // if (prevProps.post.length === 0 && this.props.post.length !== 0) {
+    //   console.log('2')
+    //   this.setState({
+    //     postsUi: post
+    //   })
+    // }
     if (prevProps.post !== this.props.post) {
+      // console.log('1')
       // console.log(prevProps);
       // console.log(this.props);
       // console.log(postsOrdered)
@@ -87,7 +96,7 @@ class App extends Component {
       //   })
       // })
       this.setState({
-        postsUi: postsOrdered
+        postsUi: post
       })
     }
     // console.log(this.state.posts)
@@ -99,7 +108,7 @@ class App extends Component {
       case 'votescore' :
       console.log('votescore')
         postsUi.sort((a, b) => {
-          return a.voteScore - b.voteScore
+          return b.voteScore - a.voteScore
         })
         return this.setState({
           postsUi
@@ -117,6 +126,14 @@ class App extends Component {
       default :
         return
     }
+  }
+
+  openModal = () => {
+    this.setState({ modalIsOpen: true });
+  }
+
+  closeModal = () => {
+    this.setState({ modalIsOpen: false })
   }
 
   render() {
@@ -153,10 +170,24 @@ class App extends Component {
                   <a href="#" onClick={(e) => this.handleSortBy("timestamp")}>Timestamp</a>
                 </span>
               </div>
+              <button
+                type="button"
+                style={{display:"block", margin:"10px"}}
+                onClick={this.openModal}
+                >
+                Create new post
+              </button>
+              <Modal
+                isOpen={this.state.modalIsOpen}
+                onRequestClose={this.closeModal}
+              >
+              {/* {console.log(this.props)} */}
+                <NewPost onCloseChange={this.closeModal}></NewPost>
+              </Modal>
               
               {(postsUi) && 
                 postsUi.map((postItem, i) => (
-                  <Post key={i} post={postItem} />
+                  <ListPost key={i} post={postItem} />
               ))}
             </ol>
           </div>

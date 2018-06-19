@@ -25,5 +25,24 @@ export const postVote = (postId, voteText) =>
    .then(res => res.json())
   //  .then(json => console.log(json))
 
-  //  postVote('8xf0y6ziyjabvozdd253nd', 'upVote')
-  //  postVote('8xf0y6ziyjabvozdd253nd', 'upVote')
+export const postNewPost = (postInfo) => {
+  console.log(postInfo);
+  fetch(`${api}/posts`, {
+    method: 'POST',
+    headers,
+    body: postInfo
+  })
+  .then(res => res.json())
+  // .then(res => console.log(res))
+}
+
+// let postBody = JSON.stringify({
+//   'author': 'El autor',
+//   'title': 'Vaya titulazo',
+//   'body': 'some body',
+//   'id': 99999997,
+//   'category': 'react',
+//   'timestamp': Date.now()
+// });
+
+// postNewPost(postBody);

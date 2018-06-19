@@ -19,9 +19,13 @@ ul {
   margin-bottom: 30px
 }
 
-span {
+.post-info span {
   margin: 20px
 }
+
+/* .sort-controls {
+  margin: 20px;
+} */
 
 .sort-controls a {
   margin: 10px;

@@ -41,3 +41,12 @@ export function pushVoteScore(postId, voteText) {
       .then(() => dispatch(changeVoteScore(postId, voteText)))
   }
 }
+
+export function postPost(postInfo) {
+  console.log(postInfo);
+  return dispatch => {
+    MyAPI.postNewPost(postInfo)
+      .then(() => dispatch(fetchPosts()))
+      // .then(res => console.log(res))
+  }
+}

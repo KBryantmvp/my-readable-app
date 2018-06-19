@@ -1,0 +1,22 @@
+.close-modal-button {
+  float: right;
+  margin-right: 5px;
+}
+
+select {
+  margin: 5px;
+}
+
+input {
+  width: -webkit-fill-available;
+  margin: 5px;
+}
+
+textarea {
+  width: -webkit-fill-available;
+  margin: 5px;
+}
+
+/* form {
+  padding: 5px;
+} */
